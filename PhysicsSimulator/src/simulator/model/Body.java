@@ -56,7 +56,7 @@ public class Body {
 	
 	public String toString() {
 		
-		return "\"id\": "+this.id+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration;
+		return "{ \"id\": "+this.id+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+" }";
 	}
 	
 }

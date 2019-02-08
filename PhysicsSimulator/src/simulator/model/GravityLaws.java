@@ -1,7 +1,7 @@
 package simulator.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface GravityLaws {
-	public void apply(List<Body>bodies);
+	public void apply(ArrayList<Body>bodies);
 }
