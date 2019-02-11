@@ -27,6 +27,7 @@ public class PhysicsSimulator {
 				throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
 			}
 		}
+		//aniadir cuerpo
 	}
 	
 	public String toString(){
