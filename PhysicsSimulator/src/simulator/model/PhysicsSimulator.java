@@ -11,6 +11,10 @@ public class PhysicsSimulator {
 	
 	public PhysicsSimulator(double tiempoPaso, GravityLaws leyes, ArrayList<Body> cuerpos) throws IllegalArgumentException {
 		tiempoActual=0.0;
+		//COMPROBAR TIPO CORRECTO TIEMPOPASO (¿NUMBERFORMATEXCEPTION?)
+		if(leyes==null) {
+			throw new IllegalArgumentException("");
+		}
 	}
 	
 	public void advance(){
@@ -27,7 +31,9 @@ public class PhysicsSimulator {
 				throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
 			}
 		}
-		//aniadir cuerpo
+		
+		cuerpos.add(b);
+		
 	}
 	
 	public String toString(){
