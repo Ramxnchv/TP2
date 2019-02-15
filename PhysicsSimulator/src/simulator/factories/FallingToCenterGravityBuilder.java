@@ -8,7 +8,7 @@ import simulator.model.GravityLaws;
 public class FallingToCenterGravityBuilder extends Builder<GravityLaws> {
 	
 	public FallingToCenterGravityBuilder(){
-		
+		super("ftcg","Falling to Center Gravity");
 	}
 	
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
@@ -18,14 +18,6 @@ public class FallingToCenterGravityBuilder extends Builder<GravityLaws> {
 			ftcg = new FallingToCenterGravity();
 		}
 		return ftcg;
-	}
-	
-	public JSONObject getBuilderInfo(){
-		JSONObject info= new JSONObject();
-		info.accumulate("type", "ftcg");
-		info.accumulate("data", null);
-		info.accumulate("desc", "Falling to Center Gravity");
-		return info;
 	}
 	
 }

@@ -8,7 +8,7 @@ import simulator.model.NoGravity;
 public class NoGravityBuilder extends Builder<GravityLaws> {
 	
 	public NoGravityBuilder(){
-		
+		super("ng","No Gravity Law");
 	}
 	
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
@@ -18,14 +18,6 @@ public class NoGravityBuilder extends Builder<GravityLaws> {
 			ng = new NoGravity();
 		}
 		return ng;
-	}
-	
-	public JSONObject getBuilderInfo(){
-		JSONObject info= new JSONObject();
-		info.accumulate("type", "ng");
-		info.accumulate("data", null);
-		info.accumulate("desc", "No Gravity Law");
-		return info;
 	}
 	
 }

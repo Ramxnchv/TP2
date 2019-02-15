@@ -1,5 +1,9 @@
 package simulator.launcher;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+
 /*
  * Examples of command-line parameters:
  * 
@@ -20,9 +24,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
-import simulator.factories.Factory;
+import simulator.control.Controller;
+import simulator.factories.*;
 import simulator.model.Body;
 import simulator.model.GravityLaws;
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
@@ -42,10 +48,18 @@ public class Main {
 
 	private static void init() {
 		// initialize the bodies factory
-		// ...
-
+		ArrayList<Builder<Body>> bodyBuilder = new ArrayList<>();
+		bodyBuilder.add(new BasicBodyBuilder());
+		bodyBuilder.add(new MassLosingBodyBuilder());
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilder);
+		
 		// initialize the gravity laws factory
-		// ...
+		ArrayList<Builder<GravityLaws>> gravityLawsBuilder = new ArrayList<>();
+		gravityLawsBuilder.add(new NewtonUniversalGravitationBuilder());
+		gravityLawsBuilder.add(new FallingToCenterGravityBuilder());
+		gravityLawsBuilder.add(new NoGravityBuilder());
+		_gravityLawsFactory = new BuilderBasedFactory<GravityLaws>(gravityLawsBuilder);
+		
 	}
 
 	private static void parseArgs(String[] args) {
@@ -170,6 +184,11 @@ public class Main {
 
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
+		GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
+		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl,null);
+		Controller c = new Controller(ps, _bodyFactory);
+		c.loadBodies(new FileInputStream(_inFile));
+		c.run(n, out);
 	}
 
 	private static void start(String[] args) throws Exception {

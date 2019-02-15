@@ -10,7 +10,7 @@ import simulator.model.MassLossingBody;
 public class MassLosingBodyBuilder extends Builder<Body> {
 	
 	public MassLosingBodyBuilder(){
-		
+		super("mlb","Lossing Mass Body");
 	}
 	
 	public Body createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
@@ -39,15 +39,8 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 		return mlb;
 	}
 	
-	public JSONObject getBuilderInfo(){
-		JSONObject info= new JSONObject();
-		info.accumulate("type", "mlb");
-		info.accumulate("data", this.createData());
-		info.accumulate("desc", "Lossing Mass Body");
-		return info;
-	}
 	
-	private JSONObject createData(){
+	public JSONObject createData(){
 		JSONObject data= new JSONObject();
 		
 		double[] doubleVector= new double[2];

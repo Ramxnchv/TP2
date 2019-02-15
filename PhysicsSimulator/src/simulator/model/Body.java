@@ -1,4 +1,6 @@
 package simulator.model;
+import org.json.JSONObject;
+
 import simulator.misc.Vector;
 
 public class Body {
@@ -55,8 +57,12 @@ public class Body {
 	}
 	
 	public String toString() {
-		
-		return "{ \"id\": "+this.id+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+" }";
+		JSONObject b = new JSONObject();
+		b.accumulate("id", id);
+		b.accumulate("pos", position.toString());
+		b.accumulate("vel", velocity.toString());
+		b.accumulate("mass", mass);
+		return b.toString();
 	}
 	
 }

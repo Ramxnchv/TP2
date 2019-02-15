@@ -9,7 +9,7 @@ import simulator.model.Body;
 public class BasicBodyBuilder extends Builder<Body> {
 	
 	public BasicBodyBuilder(){
-		
+		super("basic","Basic Body");
 	}
 	
 	public Body createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
@@ -35,15 +35,7 @@ public class BasicBodyBuilder extends Builder<Body> {
 		return b;
 	}
 	
-	public JSONObject getBuilderInfo(){
-		JSONObject info= new JSONObject();
-		info.accumulate("type", "basic");
-		info.accumulate("data", this.createData());
-		info.accumulate("desc", "Basic Body");
-		return info;
-	}
-	
-	private JSONObject createData(){
+	public JSONObject createData(){
 		JSONObject data= new JSONObject();
 		
 		double[] doubleVector= new double[2];

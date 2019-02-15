@@ -8,7 +8,7 @@ import simulator.model.NewtonUniversalGravitation;
 public class NewtonUniversalGravitationBuilder extends Builder<GravityLaws> {
 	
 	public NewtonUniversalGravitationBuilder(){
-		
+		super("nlug","Newton’s law of universal gravitation");
 	}
 	
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
@@ -18,14 +18,6 @@ public class NewtonUniversalGravitationBuilder extends Builder<GravityLaws> {
 			nlug = new NewtonUniversalGravitation();
 		}
 		return nlug;
-	}
-	
-	public JSONObject getBuilderInfo(){
-		JSONObject info= new JSONObject();
-		info.accumulate("type", "nlug");
-		info.accumulate("data", null);
-		info.accumulate("desc", "Newton’s law of universal gravitation");
-		return info;
 	}
 	
 }

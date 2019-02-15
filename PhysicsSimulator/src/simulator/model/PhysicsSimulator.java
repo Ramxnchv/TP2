@@ -11,6 +11,9 @@ public class PhysicsSimulator {
 	
 	public PhysicsSimulator(double tiempoPaso, GravityLaws leyes, ArrayList<Body> cuerpos) throws IllegalArgumentException {
 		tiempoActual=0.0;
+		this.tiempoPaso=tiempoPaso;
+		this.leyes=leyes;
+		this.cuerpos=cuerpos;
 		//COMPROBAR TIPO CORRECTO TIEMPOPASO (¿NUMBERFORMATEXCEPTION?)
 		if(leyes==null) {
 			throw new IllegalArgumentException("");

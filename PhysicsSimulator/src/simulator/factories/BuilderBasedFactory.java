@@ -23,7 +23,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 		
 		while(it.hasNext()&&!found){
 			builder=it.next();
-			objeto=builder.createTheInstance(info);
+			objeto=builder.createInstance(info);
 			
 			if(objeto!=null){
 				found=true;
