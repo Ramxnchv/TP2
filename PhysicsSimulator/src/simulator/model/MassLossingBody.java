@@ -26,14 +26,8 @@ public class MassLossingBody extends Body{
 		}
 	}
 	public String toString() {
-		JSONObject b = new JSONObject();
-		b.accumulate("id", id);
-		b.accumulate("pos", position.toString());
-		b.accumulate("vel", velocity.toString());
-		b.accumulate("mass", mass);
-		b.accumulate("freq", lossFrequency);
-		b.accumulate("factor", lossFactor);
-		return b.toString();
+		
+		return "{ \"id\": "+this.id+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+",\"freq\": "+this.lossFrequency+",\"factor\": "+this.lossFactor+" }";
 	}
 
 }

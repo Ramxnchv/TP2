@@ -27,7 +27,7 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 				double[] v = jsonArrayToDoubleArray(data.getJSONArray("vel"));
 				Vector velocity = new Vector(v);
 				/*Vector position= new Vector(jsonArrayToDoubleArray(jsonobject.getJSONArray("pos")));
-				Vector velocity= new Vector(jsonArrayToDoubleArray(jsonobject.getJSONArray("vel")));*/
+				Vector velocity= new Vector(jsonArrayToDoubleArray(json       object.getJSONArray("vel")));*/
 				double mass= data.getDouble("mass");
 				double frequency= data.getDouble("freq");
 				double factor= data.getDouble("factor");

@@ -59,7 +59,7 @@ public class Body {
 
 	@Override
 	public String toString() {
-		return  "{" + "id:" + id + "mass: " + mass + "pos: " +  position +   "vel:"+  velocity + "acc: " + acceleration  + "}";
+		return "{ \"id\": "+this.id+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+" }";
 	}
 
 }
