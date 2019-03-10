@@ -8,7 +8,7 @@ import simulator.model.NoGravity;
 public class NoGravityBuilder extends Builder<GravityLaws> {
 
 	public NoGravityBuilder(){
-		super("nlug","Newton’s law of universal gravitation");
+		super("ng","No Gravity Law");
 	}
 
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
