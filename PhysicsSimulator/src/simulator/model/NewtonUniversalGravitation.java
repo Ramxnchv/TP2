@@ -39,7 +39,5 @@ public class NewtonUniversalGravitation implements GravityLaws{
 
 			}
 		}
-
-
 	}
 }

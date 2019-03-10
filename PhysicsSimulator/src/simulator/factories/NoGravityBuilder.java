@@ -3,11 +3,11 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.GravityLaws;
-import simulator.model.NewtonUniversalGravitation;
+import simulator.model.NoGravity;
 
-public class NewtonUniversalGravitationBuilder extends Builder<GravityLaws> {
+public class NoGravityBuilder extends Builder<GravityLaws> {
 
-	public NewtonUniversalGravitationBuilder(){
+	public NoGravityBuilder(){
 		super("nlug","Newton’s law of universal gravitation");
 	}
 
@@ -17,7 +17,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<GravityLaws> {
 		if(jsonobject.get("type").equals("nlug")){
 			nlug = new NewtonUniversalGravitation();
 		}*/
-		return new NewtonUniversalGravitation();
+		return new NoGravity();
 	}
 
 }
