@@ -1,12 +1,16 @@
 package simulator.launcher;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /*
  * Examples of command-line parameters:
- * 
+ *
  *  -h
  *  -i resources/examples/ex4.4body.txt -s 100
  *  -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100
@@ -23,6 +27,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import simulator.control.Controller;
 import simulator.factories.*;
@@ -35,12 +40,16 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static int _stepsDefaultValue = 150;
 
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _dtime = null;
 	private static String _inFile = null;
+	private static String _outFile = null;
 	private static JSONObject _gravityLawsInfo = null;
+	private static int _steps = 0;
+	private static OutputStream os = null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -52,14 +61,14 @@ public class Main {
 		bodyBuilder.add(new BasicBodyBuilder());
 		bodyBuilder.add(new MassLosingBodyBuilder());
 		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilder);
-		
+
 		// initialize the gravity laws factory
 		ArrayList<Builder<GravityLaws>> gravityLawsBuilder = new ArrayList<>();
 		gravityLawsBuilder.add(new NewtonUniversalGravitationBuilder());
 		gravityLawsBuilder.add(new FallingToCenterGravityBuilder());
 		gravityLawsBuilder.add(new NoGravityBuilder());
 		_gravityLawsFactory = new BuilderBasedFactory<GravityLaws>(gravityLawsBuilder);
-		
+
 	}
 
 	private static void parseArgs(String[] args) {
@@ -77,6 +86,8 @@ public class Main {
 			parseInFileOption(line);
 			parseDeltaTimeOption(line);
 			parseGravityLawsOption(line);
+			parseOutFileOption(line);
+			parseStepOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -111,8 +122,15 @@ public class Main {
 						+ _dtimeDefaultValue + ".")
 				.build());
 
+		//output
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Type file name to save").build());
+
+		//steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg().desc("Specifies number of steps for simulation. Default Value: "
+				+ _stepsDefaultValue +".").build());
+
 		// gravity laws -- there is a workaround to make it work even when
-		// _gravityLawsFactory is null. 
+		// _gravityLawsFactory is null.
 		//
 		String gravityLawsValues = "N/A";
 		String defaultGravityLawsValue = "N/A";
@@ -163,6 +181,7 @@ public class Main {
 
 		// this line is just a work around to make it work even when _gravityLawsFactory
 		// is null, you can remove it when've defined _gravityLawsFactory
+
 		if (_gravityLawsFactory == null)
 			return;
 
@@ -182,13 +201,32 @@ public class Main {
 		}
 	}
 
+	private static void parseStepOption(CommandLine line) throws ParseException {
+		String steps = line.getOptionValue("s", Integer.toString(_stepsDefaultValue));
+		try {
+			_steps = Integer.parseInt(steps);
+			assert(_steps > 0);
+		} catch (Exception e) {
+			throw new ParseException ("Invalid steps value: " + steps);
+		}
+	}
+
+	private static void parseOutFileOption(CommandLine line) throws ParseException {
+		_outFile = line.getOptionValue("o");
+		if (_outFile == null) {
+			throw new ParseException("No file specificied");
+		}
+
+	}
+
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
+		InputStream is = new FileInputStream (_inFile);
 		GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
 		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl,null);
 		Controller c = new Controller(ps, _bodyFactory);
-		c.loadBodies(new FileInputStream(_inFile));
-		c.run(n, out);
+		c.loadBodies(is);
+		c.run(_steps, os);
 	}
 
 	private static void start(String[] args) throws Exception {

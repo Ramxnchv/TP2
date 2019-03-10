@@ -3,21 +3,21 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.GravityLaws;
-import simulator.model.NoGravity;
+import simulator.model.NewtonUniversalGravitation;
 
-public class NoGravityBuilder extends Builder<GravityLaws> {
-	
-	public NoGravityBuilder(){
-		super("ng","No Gravity Law");
+public class NewtonUniversalGravitationBuilder extends Builder<GravityLaws> {
+
+	public NewtonUniversalGravitationBuilder(){
+		super("nlug","Newton’s law of universal gravitation");
 	}
-	
+
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
-		NoGravity ng = null;
-		
-		if(jsonobject.get("type").equals("ng")){
-			ng = new NoGravity();
-		}
-		return ng;
+		/*NewtonUniversalGravitation nlug = null;
+
+		if(jsonobject.get("type").equals("nlug")){
+			nlug = new NewtonUniversalGravitation();
+		}*/
+		return new NewtonUniversalGravitation();
 	}
-	
+
 }

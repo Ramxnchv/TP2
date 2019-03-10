@@ -1,44 +1,54 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import simulator.misc.Vector;
+public class PhysicsSimulator {
+	private double tiempoPaso;
+	private GravityLaws leyes;
+	private List<Body> cuerpos;
+	private double tiempoActual;
 
-public class NewtonUniversalGravitation implements GravityLaws{
-	
-	private final double constanteGravitacional=6.67E-11;
-	
-	public void apply(ArrayList<Body> bodies) {
-		
-		//fuerzaJEscalar calcula la fuerza que ejerce un cuerpo j sobre otro i
-		//fuerzaJVectorial calcula esa misma fuerza multiplicada por la distancia entre ambos vectores para convertirla en vector
-		//fuerzaTotal acumula el valor de cada fuerza calculada para simular el sumatorio
-		
-		Vector fuerzaJVectorial,fuerzaTotal;
-		double fuerzaJEscalar=0.0;
-		
-		for(Body i:bodies){
-			if(i.getMass()==0.0){
-				i.setAcceleration(new Vector(i.getAcceleration().dim()));
-				i.setVelocity(new Vector(i.getVelocity().dim()));
-			}
-			else{
-				
-				fuerzaTotal= new Vector(i.getAcceleration().dim());
-				
-				for(Body j:bodies){
-					if(j!=i){
-						fuerzaJEscalar=constanteGravitacional*(i.getMass()*j.getMass()/Math.pow(j.getPosition().distanceTo(i.getPosition()),2));
-						fuerzaJVectorial= (j.getPosition().minus(i.getPosition())).direction().scale(fuerzaJEscalar);
-						fuerzaTotal=fuerzaJVectorial.plus(fuerzaTotal);
-					}
-				}
-				
-				i.setAcceleration(fuerzaTotal.scale(1/i.getMass()));
-						
+
+	public PhysicsSimulator(double tiempoPaso, GravityLaws leyes, ArrayList<Body> cuerpos) {
+		tiempoActual=0.0;
+		this.tiempoPaso=tiempoPaso;
+		this.leyes=leyes;
+		this.cuerpos=cuerpos;
+		//COMPROBAR TIPO CORRECTO TIEMPOPASO (¿NUMBERFORMATEXCEPTION?)
+	}
+
+	public void advance(){
+		leyes.apply(cuerpos);
+		for(Body i:cuerpos){
+			i.move(tiempoPaso);
+		}
+		tiempoActual+=tiempoPaso;
+	}
+
+	public void addBody(Body b) throws IllegalArgumentException{
+		for(Body i:cuerpos){
+			if(i.getId()==b.getId()){
+				throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
 			}
 		}
-		
-		
+
+		cuerpos.add(b);
+
 	}
+
+	public String toString(){
+		StringBuilder sb= new StringBuilder();
+		String info="{ \"time\": "+tiempoActual+",\"bodies\": [";
+		String end="] }";
+
+		sb.append(info);
+
+		for(Body i:cuerpos){
+			sb.append(i.toString()+", ");
+		}
+
+		return sb.append(end).toString();
+	}
+
 }
