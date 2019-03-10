@@ -33,12 +33,14 @@ public class Controller {
 	}
 
 	public void run(int n, OutputStream out){
+			
 		JSONObject jsonOutput = new JSONObject(out);
+		
 		JSONArray states = new JSONArray();
+		
+		PrintStream p = (out == null) ? null : new PrintStream(out);
 
 		String information;
-
-		PrintStream p = (out == null) ? null : new PrintStream(out);
 
 		for(int i=0;i<n;i++) {
 			states.put(simulator.toString());

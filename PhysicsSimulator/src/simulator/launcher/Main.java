@@ -2,6 +2,7 @@ package simulator.launcher;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -49,7 +50,6 @@ public class Main {
 	private static String _outFile = null;
 	private static JSONObject _gravityLawsInfo = null;
 	private static int _steps = 0;
-	private static OutputStream os = null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -223,6 +223,8 @@ public class Main {
 		// create and connect components, then start the simulator
 		ArrayList <Body> b = new ArrayList<>();
 		InputStream is = new FileInputStream (_inFile);
+		OutputStream os = new FileOutputStream (_outFile);
+		
 		GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
 		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl,b);
 		Controller c = new Controller(ps, _bodyFactory);
