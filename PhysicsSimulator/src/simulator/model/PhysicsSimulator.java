@@ -15,7 +15,6 @@ public class PhysicsSimulator {
 		this.tiempoPaso=tiempoPaso;
 		this.leyes=leyes;
 		this.cuerpos=cuerpos;
-		//COMPROBAR TIPO CORRECTO TIEMPOPASO (¿NUMBERFORMATEXCEPTION?)
 	}
 
 	public void advance(){
