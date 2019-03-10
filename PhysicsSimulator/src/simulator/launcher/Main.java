@@ -241,6 +241,8 @@ public class Main {
 		try {
 			init();
 			start(args);
+			System.out.println("Su archivo de salida se generó correctamente.");
+			
 		} catch (Exception e) {
 			System.err.println("Something went wrong ...");
 			System.err.println();
