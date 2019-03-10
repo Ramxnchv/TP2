@@ -12,12 +12,9 @@ public class BasicBodyBuilder extends Builder<Body> {
 		super("basic","Basic Body");
 	}
 
-	public Body createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
+	public Body createTheInstance(JSONObject data) throws IllegalArgumentException{
 		Body b = null;
 
-	//	if(jsonobject.get("type").equals("basic")){
-
-			JSONObject data=jsonobject.getJSONObject("data");
 				try{
 					String id= data.getString("id");
 					double[] p = jsonArrayToDoubleArray(data.getJSONArray("pos"));
@@ -34,7 +31,6 @@ public class BasicBodyBuilder extends Builder<Body> {
 				}catch(JSONException e){
 					throw new IllegalArgumentException("Clave inexistente");
 				}
-		//}
 
 		return b;
 	}
