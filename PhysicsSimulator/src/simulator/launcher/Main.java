@@ -213,17 +213,20 @@ public class Main {
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
-		if (_outFile == null) {
-			throw new ParseException("No file specificied");
-		}
-
 	}
 
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
 		ArrayList <Body> b = new ArrayList<>();
 		InputStream is = new FileInputStream (_inFile);
-		OutputStream os = new FileOutputStream (_outFile);
+		OutputStream os;
+		
+		if(_outFile!=null){
+			 os = new FileOutputStream (_outFile);
+		}
+		else{
+			os = null;
+		}
 		
 		GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
 		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl,b);
