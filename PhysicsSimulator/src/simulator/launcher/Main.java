@@ -244,7 +244,9 @@ public class Main {
 		try {
 			init();
 			start(args);
-			System.out.println("Su archivo de salida se generó correctamente.");
+			if(_outFile!=null){
+				System.out.println("Su archivo de salida se generó correctamente.");
+			}
 			
 		} catch (Exception e) {
 			System.err.println("Something went wrong ...");

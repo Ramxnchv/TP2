@@ -34,31 +34,29 @@ public class Controller {
 
 	public void run(int n, OutputStream out){
 			
-		PrintStream p = (out == null) ? null : new PrintStream(out);
-		
 		JSONArray states = new JSONArray();	
 		
 		//Si out no es null lo imprime en el archivo de salida
 		if(out!=null){
+			PrintStream p = new PrintStream(out);
 			JSONObject jsonOutput = new JSONObject(out);
 			for(int i=0;i<n;i++) {
 				states.put(simulator.toString());
 				simulator.advance();
 			}
-			jsonOutput.append("states", states);	
+			jsonOutput.append("states", states);
+			p.print(simulator.toString());
+			p.close();
 		}
 		
 		//Si no hay archivo de salida se utiliza la salida por consola
 		else{
 			for(int i=0;i<n;i++) {
+				System.out.println("Paso "+i+" :");
 				System.out.println(simulator.toString());
 				simulator.advance();
 			}
 		}
-		
-		String information = simulator.toString();
-		p.print(information);
-
 	}
 
 }
