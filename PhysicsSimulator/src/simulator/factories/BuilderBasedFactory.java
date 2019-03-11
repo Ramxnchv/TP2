@@ -27,9 +27,11 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 			objeto = b.createInstance(info);
 			if(objeto != null) {
 				break;
-			} else {
-				throw new IllegalArgumentException("No se pudo encontrar un constructor adecuado");
-			}
+			} 
+		}
+		
+		if(objeto==null) {
+			throw new IllegalArgumentException("No se pudo encontrar un constructor adecuado");
 		}
 
 
