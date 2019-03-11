@@ -1,7 +1,5 @@
 package simulator.model;
 
-import org.json.JSONObject;
-
 import simulator.misc.Vector;
 
 public class MassLossingBody extends Body{
