@@ -23,7 +23,7 @@ public class Body {
 	}
 
 	public void setVelocity(Vector velocity) {
-		velocity = new Vector(velocity);
+		this.velocity = new Vector(velocity);
 	}
 
 	public Vector getAcceleration() {
@@ -31,7 +31,7 @@ public class Body {
 	}
 
 	public void setAcceleration(Vector acceleration) {
-		acceleration = new Vector(acceleration);
+		this.acceleration = new Vector(acceleration);
 	}
 
 	public Vector getPosition() {
@@ -39,7 +39,7 @@ public class Body {
 	}
 
 	public void setPosition(Vector position) {
-		position = new Vector (position);
+		this.position = new Vector (position);
 	}
 
 	public String getId() {
@@ -53,8 +53,6 @@ public class Body {
 	public void move(double t) {
 		position = position.plus(velocity.scale(t).plus(acceleration.scale(t*t*0.5)));
 		velocity = velocity.plus(acceleration.scale(t));
-		/*this.setPosition(this.position.plus(this.velocity.scale(t)).plus(this.acceleration.scale(t*t*0.5)));
-		this.setVelocity(this.velocity.plus(this.acceleration.scale(t)));*/
 	}
 
 	@Override

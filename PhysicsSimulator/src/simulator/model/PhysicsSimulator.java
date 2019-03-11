@@ -19,7 +19,9 @@ public class PhysicsSimulator {
 
 	public void advance(){
 		leyes.apply(cuerpos);
+		
 		for(Body i:cuerpos){
+			
 			i.move(tiempoPaso);
 		}
 		tiempoActual+=tiempoPaso;

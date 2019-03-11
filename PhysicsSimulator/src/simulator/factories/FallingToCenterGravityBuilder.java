@@ -12,11 +12,7 @@ public class FallingToCenterGravityBuilder extends Builder<GravityLaws> {
 	}
 
 	public GravityLaws createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
-		/*FallingToCenterGravity ftcg = null;
-
-		if(jsonobject.get("type").equals("ftgc")){
-			ftcg = new FallingToCenterGravity();
-		}*/
+		
 		return new FallingToCenterGravity();
 	}
 

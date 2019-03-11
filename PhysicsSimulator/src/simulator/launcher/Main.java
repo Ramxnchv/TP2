@@ -182,9 +182,6 @@ public class Main {
 		// this line is just a work around to make it work even when _gravityLawsFactory
 		// is null, you can remove it when've defined _gravityLawsFactory
 
-		if (_gravityLawsFactory == null)
-			return;
-
 		String gl = line.getOptionValue("gl");
 		if (gl != null) {
 			for (JSONObject fe : _gravityLawsFactory.getInfo()) {

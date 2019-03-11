@@ -13,21 +13,15 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 		super("mlb","Lossing Mass Body");
 	}
 
-	public Body createTheInstance(JSONObject jsonobject) throws IllegalArgumentException{
-		MassLossingBody mlb = null;
-
-		if(jsonobject.get("type").equals("basic")){
-
-			JSONObject data=jsonobject.getJSONObject("data");
-
+	public Body createTheInstance(JSONObject data) throws IllegalArgumentException{
+			MassLossingBody mlb = null;
+			
 			try{
 				String id= data.getString("id");
 				double[] p = jsonArrayToDoubleArray(data.getJSONArray("pos"));
 				Vector position = new Vector(p);
 				double[] v = jsonArrayToDoubleArray(data.getJSONArray("vel"));
 				Vector velocity = new Vector(v);
-				/*Vector position= new Vector(jsonArrayToDoubleArray(jsonobject.getJSONArray("pos")));
-				Vector velocity= new Vector(jsonArrayToDoubleArray(json       object.getJSONArray("vel")));*/
 				double mass= data.getDouble("mass");
 				double frequency= data.getDouble("freq");
 				double factor= data.getDouble("factor");
@@ -38,7 +32,6 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 			}catch(JSONException e){
 				throw new IllegalArgumentException("Clave inexistente");
 			}
-		}
 
 		return mlb;
 	}
