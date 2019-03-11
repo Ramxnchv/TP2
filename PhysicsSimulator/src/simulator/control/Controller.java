@@ -33,19 +33,27 @@ public class Controller {
 	}
 
 	public void run(int n, OutputStream out){
-			
-		JSONArray states = new JSONArray();	
-		
+				
 		//Si out no es null lo imprime en el archivo de salida
 		if(out!=null){
+			StringBuilder sb = new StringBuilder();
+			sb.append("{"+" \"states\": [ ");
 			PrintStream p = new PrintStream(out);
-			JSONObject jsonOutput = new JSONObject(out);
+			
+			
 			for(int i=0;i<n;i++) {
-				states.put(simulator.toString());
+				sb.append(simulator.toString());
+				if(i<(n-1)){
+					sb.append(",");
+				}
+				
 				simulator.advance();
 			}
-			jsonOutput.append("states", states);
-			p.print(simulator.toString());
+			
+			sb.append("] }");
+			
+			//jsonOutput.append("states", states);
+			p.print(sb.toString());
 			p.close();
 		}
 		

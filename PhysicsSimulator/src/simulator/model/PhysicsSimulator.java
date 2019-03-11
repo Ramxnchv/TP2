@@ -38,13 +38,22 @@ public class PhysicsSimulator {
 
 	public String toString(){
 		StringBuilder sb= new StringBuilder();
-		String info="{ \"time\": "+tiempoActual+",\"bodies\": [";
+		String info="{ \"time\": "+tiempoActual+", \"bodies\": [";
 		String end="] }";
 
 		sb.append(info);
-
+			
+		int c=0;
+		
 		for(Body i:cuerpos){
-			sb.append(i.toString()+", ");
+			int n=cuerpos.size();
+			if(c< n-1){
+				sb.append(i.toString()+", ");
+			}
+			else{
+				sb.append(i.toString());
+			}
+			c++;
 		}
 
 		return sb.append(end).toString();
