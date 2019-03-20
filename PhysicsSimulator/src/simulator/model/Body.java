@@ -1,5 +1,5 @@
 package simulator.model;
-import org.json.JSONObject;
+
 
 import simulator.misc.Vector;
 
@@ -9,7 +9,7 @@ public class Body {
 	protected Vector acceleration;
 	protected Vector position;
 	protected double mass;
-	
+
 	public Body(String id, Vector velocity, Vector acceleration,Vector position, double mass ) {
 		this.id=id;
 		this.velocity=velocity;
@@ -19,27 +19,27 @@ public class Body {
 	}
 
 	public Vector getVelocity() {
-		return velocity;
+		return new Vector(velocity);
 	}
 
 	public void setVelocity(Vector velocity) {
-		this.velocity = velocity;
+		this.velocity = new Vector(velocity);
 	}
 
 	public Vector getAcceleration() {
-		return acceleration;
+		return new Vector (acceleration);
 	}
 
 	public void setAcceleration(Vector acceleration) {
-		this.acceleration = acceleration;
+		this.acceleration = new Vector(acceleration);
 	}
 
 	public Vector getPosition() {
-		return position;
+		return new  Vector(position);
 	}
 
 	public void setPosition(Vector position) {
-		this.position = position;
+		this.position = new Vector (position);
 	}
 
 	public String getId() {
@@ -49,20 +49,15 @@ public class Body {
 	public double getMass() {
 		return mass;
 	}
-	
+
 	public void move(double t) {
-		
-		this.setPosition(this.position.plus(this.velocity.scale(t)).plus(this.acceleration.scale(t*t*0.5)));
-		this.setVelocity(this.velocity.plus(this.acceleration.scale(t)));
+		position = position.plus(velocity.scale(t).plus(acceleration.scale(t*t*0.5)));
+		velocity = velocity.plus(acceleration.scale(t));
 	}
-	
+
+	@Override
 	public String toString() {
-		JSONObject b = new JSONObject();
-		b.accumulate("id", id);
-		b.accumulate("pos", position.toString());
-		b.accumulate("vel", velocity.toString());
-		b.accumulate("mass", mass);
-		return b.toString();
+		return "{ \"id\": \" "+this.id+" \" "+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+" }";
 	}
-	
+
 }

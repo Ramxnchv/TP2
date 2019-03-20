@@ -1,11 +1,12 @@
 package simulator.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NoGravity implements GravityLaws{
-	
-	public void apply(ArrayList<Body>bodies) {
-		//los cuerpos se mueven con aceleracion fija
+
+	@Override
+	public void apply(List<Body> bodies) {
+		// TODO Auto-generated method stub
 		
 	}
 }

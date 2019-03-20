@@ -1,15 +1,14 @@
 package simulator.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import simulator.misc.Vector;
 
 
 public class FallingToCenterGravity implements GravityLaws{
-	
+
 	private final double g= 9.81;
-	
-	public void apply(ArrayList<Body> bodies) {
+
+	public void apply(List<Body> bodies) {
 		for(Body i:bodies){
 			i.setAcceleration(i.getPosition().direction().scale(-g));
 		}
