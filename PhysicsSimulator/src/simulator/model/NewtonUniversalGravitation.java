@@ -6,7 +6,7 @@ import simulator.misc.Vector;
 
 public class NewtonUniversalGravitation implements GravityLaws{
 
-	private final double constanteGravitacional=6.67E-11;
+	private final double constanteGravitacional=6.674E-11;
 
 	public void apply(List<Body> bodies) {
 
@@ -28,9 +28,9 @@ public class NewtonUniversalGravitation implements GravityLaws{
 
 				for(Body j:bodies){
 					if(j!=i){
-						fuerzaJEscalar=constanteGravitacional*(i.getMass()*j.getMass()/Math.pow(j.getPosition().distanceTo(i.getPosition()),2));
+						fuerzaJEscalar=constanteGravitacional*((i.getMass()*j.getMass())/(Math.pow(j.getPosition().distanceTo(i.getPosition()),2)));
 						fuerzaJVectorial= (j.getPosition().minus(i.getPosition())).direction().scale(fuerzaJEscalar);
-						fuerzaTotal=fuerzaJVectorial.plus(fuerzaTotal);
+						fuerzaTotal=fuerzaTotal.plus(fuerzaJVectorial);
 					}
 				}
 

@@ -21,8 +21,6 @@ public class BasicBodyBuilder extends Builder<Body> {
 					Vector position = new Vector(p);
 					double[] v = jsonArrayToDoubleArray(data.getJSONArray("vel"));
 					Vector velocity = new Vector(v);
-					/*Vector position= new Vector(jsonArrayToDoubleArray(jsonobject.getJSONArray("pos")));
-					Vector velocity= new Vector(jsonArrayToDoubleArray(jsonobject.getJSONArray("vel")));*/
 					double mass= data.getDouble("mass");
 					Vector acceleration= new Vector(v.length);
 

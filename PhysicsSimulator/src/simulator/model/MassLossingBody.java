@@ -19,13 +19,8 @@ public class MassLossingBody extends Body{
 		super.move(t);
 		c+=t;
 		if(c>=lossFrequency) {
-			this.mass=mass*(1-lossFactor);
+			this.mass=this.mass*(1-this.lossFactor);
 			c=0.0;
 		}
 	}
-	
-	public String toString(){
-		return super.toString();
-	}
-
 }

@@ -1,13 +1,10 @@
 package simulator.launcher;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /*
  * Examples of command-line parameters:
@@ -28,7 +25,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import simulator.control.Controller;
 import simulator.factories.*;

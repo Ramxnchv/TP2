@@ -49,6 +49,7 @@ public class Body {
 	public double getMass() {
 		return mass;
 	}
+	
 
 	public void move(double t) {
 		position = position.plus(velocity.scale(t).plus(acceleration.scale(t*t*0.5)));
@@ -63,14 +64,6 @@ public class Body {
 	
 	//Sobreescribimos equals para comparar los cuerpos solo por el atributo "id"
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

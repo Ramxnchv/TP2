@@ -27,7 +27,7 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 				double factor= data.getDouble("factor");
 				Vector acceleration= new Vector(velocity.dim());
 
-				mlb = new MassLossingBody(id, velocity, acceleration, position, mass,frequency,factor);
+				mlb = new MassLossingBody(id, velocity, acceleration, position, mass,factor,frequency);
 
 			}catch(JSONException e){
 				throw new IllegalArgumentException("Clave inexistente");
