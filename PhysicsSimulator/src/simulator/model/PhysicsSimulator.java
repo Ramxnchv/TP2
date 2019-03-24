@@ -10,11 +10,11 @@ public class PhysicsSimulator {
 	private double tiempoActual;
 
 
-	public PhysicsSimulator(double tiempoPaso, GravityLaws leyes, ArrayList<Body> cuerpos) {
+	public PhysicsSimulator(double tiempoPaso, GravityLaws leyes) {
 		tiempoActual=0.0;
 		this.tiempoPaso=tiempoPaso;
 		this.leyes=leyes;
-		this.cuerpos=cuerpos;
+		this.cuerpos = new ArrayList<>();
 	}
 
 	public void advance(){
@@ -28,14 +28,12 @@ public class PhysicsSimulator {
 	}
 
 	public void addBody(Body b) throws IllegalArgumentException{
-		for(Body i:cuerpos){
-			if(i.getId()==b.getId()){
-				throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
-			}
+		if(!cuerpos.contains(b)){
+			cuerpos.add(b);
 		}
-
-		cuerpos.add(b);
-
+		else{
+			throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
+		}
 	}
 
 	public String toString(){

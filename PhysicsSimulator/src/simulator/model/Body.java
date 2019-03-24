@@ -54,10 +54,37 @@ public class Body {
 		position = position.plus(velocity.scale(t).plus(acceleration.scale(t*t*0.5)));
 		velocity = velocity.plus(acceleration.scale(t));
 	}
-
+	
 	@Override
 	public String toString() {
-		return "{ \"id\": \" "+this.id+" \" "+",\"mass\": "+this.mass+",\"pos\": "+this.position+",\"vel\": "+this.velocity+",\"acc\": "+this.acceleration+" }";
+		return "{  \"id\": " +  "\"" + this.id +"\"" + ", \"mass\": " + this.mass + ", \"pos\": "+ this.position + ", \"vel\": " + this.velocity + ", \"acc\": " + this.acceleration + " }";
+	}
+	
+	
+	//Sobreescribimos equals para comparar los cuerpos solo por el atributo "id"
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Body other = (Body) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

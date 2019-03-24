@@ -23,5 +23,9 @@ public class MassLossingBody extends Body{
 			c=0.0;
 		}
 	}
+	
+	public String toString(){
+		return super.toString();
+	}
 
 }

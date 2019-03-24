@@ -214,7 +214,6 @@ public class Main {
 
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
-		ArrayList <Body> b = new ArrayList<>();
 		InputStream is = new FileInputStream (_inFile);
 		OutputStream os;
 		
@@ -226,7 +225,7 @@ public class Main {
 		}
 		
 		GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
-		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl,b);
+		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl);
 		Controller c = new Controller(ps, _bodyFactory);
 		c.loadBodies(is);
 		c.run(_steps, os);
