@@ -9,4 +9,8 @@ public class NoGravity implements GravityLaws{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String toString() {
+		return ("No se aplica ninguna ley de gravedad");
+	}
 }

@@ -216,7 +216,7 @@ public class Main {
 		if(_outFile!=null){
 			 os = new FileOutputStream (_outFile);
 		}
-		else{
+		else {
 			os = null;
 		}
 		
