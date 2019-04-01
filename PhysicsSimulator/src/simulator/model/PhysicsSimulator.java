@@ -27,11 +27,17 @@ public class PhysicsSimulator {
 			i.move(tiempoPaso);
 		}
 		tiempoActual+=tiempoPaso;
+		for(SimulatorObserver i: simulatorObserver){
+			i.onAdvance(this.cuerpos, this.tiempoActual);
+		}
 	}
 
 	public void addBody(Body b) throws IllegalArgumentException{
 		if(!cuerpos.contains(b)){
 			cuerpos.add(b);
+			for(SimulatorObserver i: simulatorObserver){
+				i.onBodyAdded(this.cuerpos, b);
+			}
 		}
 		else{
 			throw new IllegalArgumentException("Existe un cuerpo con el mismo ID");
@@ -64,6 +70,9 @@ public class PhysicsSimulator {
 	public void reset() {
 		cuerpos = new ArrayList<>();
 		tiempoPaso = 0.0;
+		for(SimulatorObserver i: simulatorObserver){
+			i.onReset(this.cuerpos, this.tiempoActual, this.tiempoPaso, this.leyes.toString());
+		}
 	}
 	
 	public void setDeltaTime(double dt) throws IllegalArgumentException{
@@ -73,6 +82,10 @@ public class PhysicsSimulator {
 		
 		this.tiempoPaso = dt;
 		
+		for(SimulatorObserver i: simulatorObserver){
+			i.onDeltaTimeChanged(this.tiempoPaso);
+		}
+		
 	}
 	
 	public void setGravityLaws(GravityLaws gravityLaws)throws IllegalArgumentException{
@@ -81,11 +94,17 @@ public class PhysicsSimulator {
 		}
 		
 		this.leyes=gravityLaws;
+		
+		for(SimulatorObserver i: simulatorObserver){
+			i.onGravityLawChanged(this.leyes.toString());
+		}
+		
 	}
 	
 	public void addObserver(SimulatorObserver o) {
 		if(!this.simulatorObserver.contains(o)) {
 			simulatorObserver.add(o);
+			o.onRegister(this.cuerpos, this.tiempoActual, this.tiempoPaso,this.leyes.toString());
 		}
 	}
 	
