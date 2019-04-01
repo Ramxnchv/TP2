@@ -78,6 +78,9 @@ public class Controller {
 	
 	public void run(int n) {
 		//implementar
+		for(int i=0;i<n;i++){
+			simulator.advance();
+		}
 	}
 	
 	public void reset() {
