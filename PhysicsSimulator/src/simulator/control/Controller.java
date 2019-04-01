@@ -22,9 +22,12 @@ public class Controller {
 	public Controller(PhysicsSimulator simulator, Factory<Body> factoryBody,Factory<GravityLaws> factoryLaws){
 		this.simulator=simulator;
 		this.factoryBody=factoryBody;
-		this.factoryLaws = factoryLaws;
-		
-		
+		this.factoryLaws = factoryLaws;	
+	}
+	
+	public Controller(PhysicsSimulator simulator, Factory<Body> factoryBody){
+		this.simulator=simulator;
+		this.factoryBody=factoryBody;
 	}
 
 	public void loadBodies(InputStream in){
