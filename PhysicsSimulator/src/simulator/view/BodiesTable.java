@@ -13,7 +13,7 @@ import simulator.control.Controller;
 
 public class BodiesTable extends JPanel {
 	
-	BodiesTableModel tableModel;
+	private BodiesTableModel tableModel;
 	
 	BodiesTable(Controller ctrl) {
 		setLayout(new BorderLayout());
@@ -23,7 +23,7 @@ public class BodiesTable extends JPanel {
 		TitledBorder.LEFT, TitledBorder.TOP));
 		
 		// TODO complete
-		BodiesTableModel tableModel = new BodiesTableModel(ctrl);
+		this.tableModel = new BodiesTableModel(ctrl);
 		JTable tabla = new JTable(tableModel);
 		tabla.setFillsViewportHeight(true);
 		JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -46,7 +46,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton exitButton;
 	
 	
-	public ControlPanel (Controller ctrl) {
+	ControlPanel (Controller ctrl) {
 		this._ctrl=ctrl;
 		_stopped = true;
 		initGUI();
