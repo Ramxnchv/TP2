@@ -34,7 +34,6 @@ public class MainWindow extends JFrame {
 		mainPanel.add(statusBar, BorderLayout.PAGE_END);
 		mainPanel.add(createCentralPanel(), BorderLayout.CENTER);
 		
-		this.add(mainPanel);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
