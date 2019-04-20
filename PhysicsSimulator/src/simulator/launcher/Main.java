@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 /*
  * Examples of command-line parameters:
  *
@@ -31,6 +33,7 @@ import simulator.factories.*;
 import simulator.model.Body;
 import simulator.model.GravityLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -46,6 +49,7 @@ public class Main {
 	private static String _outFile = null;
 	private static JSONObject _gravityLawsInfo = null;
 	private static int _steps = 0;
+	private static String _mode= null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
@@ -79,10 +83,12 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseModeOption(line);
 			parseInFileOption(line);
 			parseDeltaTimeOption(line);
 			parseGravityLawsOption(line);
 			parseOutFileOption(line);
+			
 			parseStepOption(line);
 
 			// if there are some remaining arguments, then something wrong is
@@ -117,9 +123,12 @@ public class Main {
 				.desc("A double representing actual time, in seconds, per simulation step. Default value: "
 						+ _dtimeDefaultValue + ".")
 				.build());
-
+		
 		//output
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Type file name to save").build());
+		
+		//mode
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("Execution Mode. Possible values: 'batch' (Batch mode), 'gui' (Graphical User Interface mode)). Default value: 'batch'").build());
 
 		//steps
 		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg().desc("Specifies number of steps for simulation. Default Value: "
@@ -158,7 +167,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_mode.equals("batch") && _inFile == null) {
 			throw new ParseException("An input file of bodies is required");
 		}
 	}
@@ -207,7 +216,38 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
 	}
-
+	
+	private static void parseModeOption(CommandLine line) throws ParseException {
+		_mode = line.getOptionValue("m");
+	}
+	
+	private static void startGUIMode() throws Exception {
+		//Tiene valor -i y carga el archivo en el simulador
+		if(_inFile!=null){
+			InputStream is = new FileInputStream (_inFile);
+			GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
+			PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl);
+			Controller ctrl = new Controller(ps,_bodyFactory,_gravityLawsFactory);
+			ctrl.loadBodies(is);
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					new MainWindow(ctrl);
+				}
+			});
+		}
+		//No tiene valor -i y carga el simulador vacío
+		else{
+			GravityLaws gl = _gravityLawsFactory.createInstance(_gravityLawsInfo);
+			PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl);
+			Controller ctrl = new Controller(ps,_bodyFactory,_gravityLawsFactory);
+			SwingUtilities.invokeAndWait(new Runnable() {
+				public void run() {
+					new MainWindow(ctrl);
+				}
+			});
+		}
+	}
+	
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
 		InputStream is = new FileInputStream (_inFile);
@@ -229,14 +269,19 @@ public class Main {
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		if(_mode.equals("gui")){
+			startGUIMode();
+		}
+		else{
+			startBatchMode();
+		}
 	}
 
 	public static void main(String[] args) {
 		try {
 			init();
 			start(args);
-			if(_outFile!=null){
+			if(_mode.equals("batch")&&_outFile!=null){
 				System.out.println("Su archivo de salida se generó correctamente.");
 			}
 			
