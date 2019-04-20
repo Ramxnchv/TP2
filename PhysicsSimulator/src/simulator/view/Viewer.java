@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,7 +12,9 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
 import simulator.misc.Vector;
@@ -28,6 +31,11 @@ public class Viewer extends JComponent implements SimulatorObserver{
 	private boolean _showHelp;
 	
 	Viewer(Controller ctrl) {
+		setLayout(new BorderLayout());
+		setBorder(BorderFactory.createTitledBorder(
+		BorderFactory.createLineBorder(Color.black, 2),
+		"Viewer",
+		TitledBorder.LEFT, TitledBorder.TOP));
 		initGUI();
 		ctrl.addObserver(this);
 	}
