@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -28,8 +30,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO complete the code to build the tool bar
 		this._currTime = new JLabel("Time: ");
 		this.add(_currTime);
+		this.add(new JSeparator(SwingConstants.VERTICAL));
 		this._numOfBodies = new JLabel("Bodies: ");
 		this.add(_numOfBodies);
+		this.add(new JSeparator(SwingConstants.VERTICAL));
 		this._currLaws = new JLabel("Laws: ");
 		this.add(_currLaws);
 		
@@ -41,7 +45,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		this._currTime.setText("Time: "+time);
 		this._numOfBodies.setText("Bodies: "+bodies.size());
-		this._currLaws.setText("Laws: "+gLawsDesc);
+		this._currLaws.setText("Laws: none ");
 	}
 
 	@Override

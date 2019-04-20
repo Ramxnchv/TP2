@@ -1,6 +1,8 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -45,9 +47,12 @@ public class MainWindow extends JFrame {
 		JPanel centralPanel = new JPanel(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
 		this.bodiesTable = new BodiesTable(_ctrl);
+		this.bodiesTable.setPreferredSize(new Dimension(1200,300));
 		centralPanel.add(bodiesTable);
 		this.viewer = new Viewer(_ctrl);
+		this.viewer.setPreferredSize(new Dimension(1200,500));
 		centralPanel.add(viewer);
+		centralPanel.setBackground(Color.WHITE);
 		return centralPanel;
 	}
 	

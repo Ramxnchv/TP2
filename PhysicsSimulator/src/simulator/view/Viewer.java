@@ -133,10 +133,12 @@ public class Viewer extends JComponent implements SimulatorObserver{
 		gr.drawLine(0, _centerY-5, 0, _centerY+5);
 		
 		// TODO draw bodies
-		gr.setColor(Color.BLUE);
+		
 		
 		for(Body b:_bodies){
+			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),  _centerX + (int) (b.getPosition().coordinate(0)/_scale), _centerY - (int) (b.getPosition().coordinate(1)/_scale)-5);
+			gr.setColor(Color.BLUE);
 			gr.fillOval( _centerX + (int) (b.getPosition().coordinate(0)/_scale),  _centerY - (int) (b.getPosition().coordinate(1)/_scale), 5, 5);
 		}
 		
@@ -145,8 +147,8 @@ public class Viewer extends JComponent implements SimulatorObserver{
 		// TODO draw help if _showHelp is true
 		if(_showHelp){
 			gr.setColor(Color.RED);
-			gr.drawString("h: toogle help, +: zoom-in, -:zoom-out, =:fit", 0, 0);
-			gr.drawString("Scaling Ratio: "+this._scale, 0, 2);
+			gr.drawString("h: toogle help, +: zoom-in, -:zoom-out, =:fit", 10, 25);
+			gr.drawString("Scaling Ratio: "+this._scale, 10, 40);
 			gr.setColor(Color.BLACK);
 		}
 	}

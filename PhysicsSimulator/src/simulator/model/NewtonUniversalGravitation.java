@@ -41,6 +41,6 @@ public class NewtonUniversalGravitation implements GravityLaws{
 	}
 	
 	public String toString() {
-		return ("Utiliza las leyes de gravitacion universal de Newton");
+		return ("Newton's Universal Gravitation");
 	}
 }

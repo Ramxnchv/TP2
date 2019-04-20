@@ -47,6 +47,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	
 	ControlPanel (Controller ctrl) {
+		super(new BorderLayout());
 		this._ctrl=ctrl;
 		_stopped = true;
 		initGUI();
@@ -60,11 +61,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private void createToolBarComponents() {
 		this.toolBar = new JToolBar();
-		this.add(toolBar);
+		this.add(toolBar,BorderLayout.PAGE_START);
 		
 		//Selector de archivo -------------------------------------------------
 		this.loadButton = new JButton();
-		loadButton.setSize(200, 200);
 		loadButton.setActionCommand("load");
 		loadButton.setToolTipText("Load the body file");
 		loadButton.setIcon(new ImageIcon("resources/icons/open.png"));
@@ -89,7 +89,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		//Selector de leyes -------------------------------------------------
 		this.lawSelector = new JButton();
-		lawSelector.setSize(200, 200);
 		lawSelector.setActionCommand("load law");
 		lawSelector.setToolTipText("Choose the law to use");
 		lawSelector.setIcon(new ImageIcon("resources/icons/physics.png"));
@@ -98,14 +97,26 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				JFrame ventanaDialogo = new JFrame();
-				Object[] possibilities = _ctrl.getGravityLawsFactory().getInfo().toArray();
+				
+				//Obtener posibilidades con la factoria de leyes
+				Object[] possibilities = new Object[_ctrl.getGravityLawsFactory().getInfo().size()];
+				int contador=0;
+				for (JSONObject i: _ctrl.getGravityLawsFactory().getInfo()){
+					possibilities[contador]= i.get("desc");
+					contador++;
+				}
+				
+				//Ventana de Seleccion
 				String n = (String) JOptionPane.showInputDialog(ventanaDialogo,"Select gravity laws to be used: ","Gravity Laws Selector",JOptionPane.INFORMATION_MESSAGE,null,possibilities,"No gravity (ng)");
 				
-				for (JSONObject i: _ctrl.getGravityLawsFactory().getInfo()){
-					if(n.equals(i.getString("type"))){
-						_ctrl.setGravityLaws(i);
-						break;
-					}
+				if(n!=null){
+					//Comprobar opcion y cambiar ley del simulador
+					for (JSONObject i: _ctrl.getGravityLawsFactory().getInfo()){
+						if(n.equals(i.getString("desc"))){
+							_ctrl.setGravityLaws(i);
+							break;
+						}
+					}	
 				}
 					
 			}
@@ -114,18 +125,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		//Selectores y Spinners ------------------------------------------------------
 		this.stepsLabel = new JLabel("Steps: ");
-		stepsLabel.setSize(200, 200);
 		this.deltaTimeLabel = new JLabel("Delta-Time: ");
-		deltaTimeLabel.setSize(200, 200);
 		this.stepsSpinner = new JSpinner();
-		stepsSpinner.setSize(300, 200);
 		this.dtSelector = new JTextArea();
-		dtSelector.setSize(400, 200);
+
 		
 		
 		//Boton Play --------------------------------------------------------------
 		this.playButton = new JButton();
-		playButton.setSize(200, 200);
 		playButton.setActionCommand("play");
 		playButton.setToolTipText("Start the simulation");
 		playButton.setIcon(new ImageIcon("resources/icons/run.png"));
@@ -137,14 +144,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				deshabilitarBotones();
 				_stopped=false;
 				_ctrl.setDeltaTime(Double.parseDouble(dtSelector.getText()));
-				run_sim(Integer.parseInt((String)stepsSpinner.getValue()));
+				run_sim(Integer.parseInt(stepsSpinner.getValue().toString()));
 			}
 			
 		});
 		
 		//Boton Stop ---------------------------------------------------------------
 		this.stopButton = new JButton();
-		stopButton.setSize(200, 200);
 		stopButton.setActionCommand("stop");
 		stopButton.setToolTipText("Stops the simulation");
 		stopButton.setIcon(new ImageIcon("resources/icons/stop.png"));
@@ -162,7 +168,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 		this.exitButton= new JButton();
 		exitButton.setAlignmentX(JButton.RIGHT_ALIGNMENT);
-		exitButton.setSize(200, 200);
 		exitButton.setActionCommand("exit");
 		exitButton.setToolTipText("Closes the simulator");
 		exitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
@@ -187,12 +192,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.addSeparator();
 		toolBar.add(playButton);
 		toolBar.add(stopButton);
+		toolBar.addSeparator();
 		toolBar.add(stepsLabel);
 		toolBar.add(stepsSpinner);
+		toolBar.addSeparator();
 		toolBar.add(deltaTimeLabel);
 		toolBar.add(dtSelector);
 		toolBar.addSeparator();
-		toolBar.add(exitButton, BorderLayout.EAST);
+		toolBar.add(exitButton);
 		
 	}
 	
@@ -242,12 +249,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
 		this.dtSelector.setText(Double.toString(dt));
+		this.stepsSpinner.setValue(10000);
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
 		this.dtSelector.setText(Double.toString(dt));
+		this.stepsSpinner.setValue(10000);
 	}
 
 	@Override

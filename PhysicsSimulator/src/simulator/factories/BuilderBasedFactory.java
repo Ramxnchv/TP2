@@ -8,14 +8,11 @@ import org.json.JSONObject;
 public class BuilderBasedFactory<T> implements Factory<T> {
 
 	private List<Builder<T>> builders;
-	private List<JSONObject> factoryElements = new ArrayList<JSONObject>();
-
 
 
 	public BuilderBasedFactory (List<Builder<T>> builders){
 
 		this.builders = new ArrayList<> (builders);
-
 
 	}
 
@@ -40,8 +37,9 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 
 	@Override
 	public List<JSONObject> getInfo() {
+		List<JSONObject> factoryElements= new ArrayList<JSONObject>();
 		for(Builder<?> i: this.builders){
-			this.factoryElements.add(i.getBuilderInfo());
+			factoryElements.add(i.getBuilderInfo());
 		}
 		return factoryElements;
 	}

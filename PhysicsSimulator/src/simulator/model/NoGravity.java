@@ -11,6 +11,6 @@ public class NoGravity implements GravityLaws{
 	}
 	
 	public String toString() {
-		return ("No se aplica ninguna ley de gravedad");
+		return ("No Gravity");
 	}
 }

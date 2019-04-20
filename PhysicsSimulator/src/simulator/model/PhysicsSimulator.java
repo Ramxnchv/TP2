@@ -69,7 +69,7 @@ public class PhysicsSimulator {
 	
 	public void reset() {
 		cuerpos = new ArrayList<>();
-		tiempoPaso = 0.0;
+		tiempoActual = 0.0;
 		for(SimulatorObserver i: simulatorObserver){
 			i.onReset(this.cuerpos, this.tiempoActual, this.tiempoPaso, this.leyes.toString());
 		}

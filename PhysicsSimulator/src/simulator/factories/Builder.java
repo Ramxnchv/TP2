@@ -34,7 +34,7 @@ public abstract class Builder<T> {
 	}
 
 	protected JSONObject createData() {
-		return  new JSONObject();
+		return new JSONObject();
 	}
 
 	//Convierte un array de JSON a un array de Double para poder parsear los vectores
