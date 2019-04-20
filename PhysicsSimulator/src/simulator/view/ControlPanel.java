@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import org.json.JSONObject;
@@ -33,7 +34,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private Controller _ctrl;
 	private boolean _stopped;
-	
 	
 	private JToolBar toolBar;
 	private JButton loadButton;
@@ -108,7 +108,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				}
 				
 				//Ventana de Seleccion
-				String n = (String) JOptionPane.showInputDialog(ventanaDialogo,"Select gravity laws to be used: ","Gravity Laws Selector",JOptionPane.INFORMATION_MESSAGE,null,possibilities,"No gravity (ng)");
+				String n = (String) JOptionPane.showInputDialog(ventanaDialogo,"Select gravity laws to be used: ","Gravity Laws Selector",JOptionPane.INFORMATION_MESSAGE,null,possibilities,possibilities[2]);
 				
 				if(n!=null){
 					//Comprobar opcion y cambiar ley del simulador
@@ -127,9 +127,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		//Selectores y Spinners ------------------------------------------------------
 		this.stepsLabel = new JLabel("Steps: ");
 		this.deltaTimeLabel = new JLabel("Delta-Time: ");
-		this.stepsSpinner = new JSpinner();
+		SpinnerNumberModel stepsSpinnerModel = new SpinnerNumberModel(0,0,1000000,500);
+		this.stepsSpinner = new JSpinner(stepsSpinnerModel);
 		this.stepsSpinner.setPreferredSize(new Dimension(65,30));
 		this.stepsSpinner.setMaximumSize(new Dimension(65,30));
+		
 		this.dtSelector = new JTextArea();
 		this.dtSelector.setPreferredSize(new Dimension(65,25));
 		this.dtSelector.setMaximumSize(new Dimension(65,25));

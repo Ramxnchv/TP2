@@ -45,7 +45,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		this._currTime.setText("Time: "+time);
 		this._numOfBodies.setText("Bodies: "+bodies.size());
-		this._currLaws.setText("Laws: none ");
+		this._currLaws.setText("Laws: "+gLawsDesc);
 	}
 
 	@Override

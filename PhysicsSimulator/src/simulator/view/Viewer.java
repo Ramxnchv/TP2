@@ -139,7 +139,7 @@ public class Viewer extends JComponent implements SimulatorObserver{
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),  _centerX + (int) (b.getPosition().coordinate(0)/_scale), _centerY - (int) (b.getPosition().coordinate(1)/_scale)-5);
 			gr.setColor(Color.BLUE);
-			gr.fillOval( _centerX + (int) (b.getPosition().coordinate(0)/_scale),  _centerY - (int) (b.getPosition().coordinate(1)/_scale), 5, 5);
+			gr.fillOval( _centerX + (int) (b.getPosition().coordinate(0)/_scale),  _centerY - (int) (b.getPosition().coordinate(1)/_scale), 10, 10);
 		}
 		
 		gr.setColor(Color.BLACK);
