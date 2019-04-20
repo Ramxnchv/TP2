@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,7 +10,7 @@ import java.io.FileNotFoundException;
 
 import java.util.List;
 
-
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -127,7 +128,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		this.stepsLabel = new JLabel("Steps: ");
 		this.deltaTimeLabel = new JLabel("Delta-Time: ");
 		this.stepsSpinner = new JSpinner();
+		this.stepsSpinner.setPreferredSize(new Dimension(65,30));
+		this.stepsSpinner.setMaximumSize(new Dimension(65,30));
 		this.dtSelector = new JTextArea();
+		this.dtSelector.setPreferredSize(new Dimension(65,25));
+		this.dtSelector.setMaximumSize(new Dimension(65,25));
 
 		
 		
@@ -199,6 +204,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.add(deltaTimeLabel);
 		toolBar.add(dtSelector);
 		toolBar.addSeparator();
+		toolBar.add(Box.createHorizontalGlue());
 		toolBar.add(exitButton);
 		
 	}

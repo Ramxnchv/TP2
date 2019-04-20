@@ -25,9 +25,15 @@ public class BodiesTable extends JPanel {
 		// TODO complete
 		this.tableModel = new BodiesTableModel(ctrl);
 		JTable tabla = new JTable(tableModel);
+		
+		//ocultamos las lineas horizontales y verticales
 		tabla.setShowHorizontalLines(false);
 		tabla.setShowVerticalLines(false);
+		
+		//mostramos la tabla completa
 		tabla.setFillsViewportHeight(true);
+		
+		//la añadimos a su scrollpane
 		JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		this.add(scroll);
 		}
