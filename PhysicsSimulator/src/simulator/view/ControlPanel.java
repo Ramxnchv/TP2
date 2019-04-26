@@ -33,15 +33,17 @@ import simulator.model.SimulatorObserver;
 public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private Controller _ctrl;
-	private boolean _stopped;
+	private volatile Thread _thread;
 	
 	private JToolBar toolBar;
 	private JButton loadButton;
 	private JButton lawSelector;
 	private JButton playButton;
 	private JButton stopButton;
+	private JLabel delayLabel;
 	private JLabel stepsLabel;
 	private JLabel deltaTimeLabel;
+	private JSpinner delaySpinner;
 	private JSpinner stepsSpinner;
 	private JTextArea dtSelector;
 	private JButton exitButton;
@@ -50,7 +52,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	ControlPanel (Controller ctrl) {
 		super(new BorderLayout());
 		this._ctrl=ctrl;
-		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
 	}
@@ -125,8 +126,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		});
 		
 		//Selectores y Spinners ------------------------------------------------------
+		this.delayLabel = new JLabel("Delay: ");
 		this.stepsLabel = new JLabel("Steps: ");
 		this.deltaTimeLabel = new JLabel("Delta-Time: ");
+		
+		SpinnerNumberModel delaySpinnerModel = new SpinnerNumberModel(0,0,1000,1);
+		this.delaySpinner = new JSpinner(delaySpinnerModel);
+		this.delaySpinner.setPreferredSize(new Dimension(50,30));
+		this.delaySpinner.setMaximumSize(new Dimension(50,30));
+		
+		
 		SpinnerNumberModel stepsSpinnerModel = new SpinnerNumberModel(0,0,1000000,500);
 		this.stepsSpinner = new JSpinner(stepsSpinnerModel);
 		this.stepsSpinner.setPreferredSize(new Dimension(65,30));
@@ -149,9 +158,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				deshabilitarBotones();
-				_stopped=false;
 				_ctrl.setDeltaTime(Double.parseDouble(dtSelector.getText()));
-				run_sim(Integer.parseInt(stepsSpinner.getValue().toString()));
+				
+				_thread = new Thread(new Runnable(){
+					public void run() {
+						run_sim(Integer.parseInt(stepsSpinner.getValue().toString()),Long.parseLong(delaySpinner.getValue().toString()));
+						habilitarBotones();
+						_thread = null;
+					}
+				});
+				
+				_thread.start();
+				
 			}
 			
 		});
@@ -166,7 +184,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				_stopped=true;
+				if(_thread!=null){
+					_thread.interrupt();
+				}
 			}
 			
 		});
@@ -200,6 +220,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		toolBar.add(playButton);
 		toolBar.add(stopButton);
 		toolBar.addSeparator();
+		toolBar.add(delayLabel);
+		toolBar.add(delaySpinner);
+		toolBar.addSeparator();
 		toolBar.add(stepsLabel);
 		toolBar.add(stepsSpinner);
 		toolBar.addSeparator();
@@ -225,9 +248,38 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		this.lawSelector.setEnabled(true);
 	}
 	
-	private void run_sim(int n) {
+	private void run_sim(int n, long delay) {
 		
-		if ( n>0 && !_stopped ) {
+		while ( n>0 && (!Thread.interrupted()) ) {
+			// 1. execute the simulator one step, i.e., call method
+			// _ctrl.run(1) and handle exceptions if any
+			try {
+				_ctrl.run(1);
+			} catch (Exception e) {
+				// TODO show the error in a dialog box
+				SwingUtilities.invokeLater( new Runnable() {
+					@Override
+					public void run() {
+						JOptionPane.showMessageDialog(toolBar, e.getMessage(), "Error in Simulator", JOptionPane.ERROR_MESSAGE);
+					}
+				});
+				
+				// TODO enable all buttons
+				this.habilitarBotones();
+				return;
+			}
+				
+			// 2. sleep the current thread for ’delay’ milliseconds
+			try{
+				Thread.sleep(delay);
+			}catch(InterruptedException e){
+				return;
+			}
+			
+			n--;
+		}
+		
+		/*if ( n>0 && !_stopped ) {
 			try {
 				_ctrl.run(1);
 			} catch (Exception e) {
@@ -250,21 +302,31 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			_stopped = true;
 			// TODO enable all buttons
 			this.habilitarBotones();
-		}
+		}*/
 	}
 
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this.dtSelector.setText(Double.toString(dt));
-		this.stepsSpinner.setValue(10000);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				dtSelector.setText(Double.toString(dt));
+				stepsSpinner.setValue(10000);
+			}
+		});
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this.dtSelector.setText(Double.toString(dt));
-		this.stepsSpinner.setValue(10000);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				dtSelector.setText(Double.toString(dt));
+				stepsSpinner.setValue(10000);
+			}
+		});
 	}
 
 	@Override
@@ -282,7 +344,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
-		this.dtSelector.setText(Double.toString(dt));
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				dtSelector.setText(Double.toString(dt));
+			}
+		});
 	}
 
 	@Override

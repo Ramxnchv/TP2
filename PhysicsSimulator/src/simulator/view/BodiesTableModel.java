@@ -6,6 +6,7 @@ import java.util.List;
 import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -70,32 +71,56 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this._bodies=bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				fireTableStructureChanged();
+			}
+		});
+	
 	}
 
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this._bodies=bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				fireTableStructureChanged();
+			}
+		});
+		
 	}
 
 
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
 		// TODO Auto-generated method stub
-		this._bodies=bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				fireTableStructureChanged();
+			}
+		});
+		
 	}
 
 
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
-		this._bodies=bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				fireTableStructureChanged();
+			}
+		});
+		
 	}
 
 

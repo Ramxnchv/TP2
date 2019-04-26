@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -43,29 +44,53 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this._currTime.setText("Time: "+time);
-		this._numOfBodies.setText("Bodies: "+bodies.size());
-		this._currLaws.setText("Laws: "+gLawsDesc);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText("Time: "+time);
+				_numOfBodies.setText("Bodies: "+bodies.size());
+				_currLaws.setText("Laws: "+gLawsDesc);
+			}
+		});
+		
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this._currTime.setText("Time: "+time);
-		this._numOfBodies.setText("Bodies: "+bodies.size());
-		this._currLaws.setText("Laws: "+gLawsDesc);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText("Time: "+time);
+				_numOfBodies.setText("Bodies: "+bodies.size());
+				_currLaws.setText("Laws: "+gLawsDesc);
+			}
+		});
+		
 	}
 
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
 		// TODO Auto-generated method stub
-		this._numOfBodies.setText("Bodies: "+bodies.size());
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_numOfBodies.setText("Bodies: "+bodies.size());
+			}
+		});
+		
 	}
 
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
-		this._currTime.setText("Time: "+time);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText("Time: "+time);
+			}
+		});
+		
 	}
 
 	@Override
@@ -77,7 +102,13 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onGravityLawChanged(String gLawsDesc) {
 		// TODO Auto-generated method stub
-		this._currLaws.setText("Laws: "+gLawsDesc);
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_currLaws.setText("Laws: "+gLawsDesc);
+			}
+		});
+		
 	}
 
 }

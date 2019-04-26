@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
@@ -182,31 +183,54 @@ public class Viewer extends JComponent implements SimulatorObserver{
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		_bodies=bodies;
-		autoScale();
-		repaint();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				autoScale();
+				repaint();
+			}
+		});
+		
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
-		_bodies=bodies;
-		autoScale();
-		repaint();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				autoScale();
+				repaint();
+			}
+		});
+
 	}
 
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
 		// TODO Auto-generated method stub
-		_bodies=bodies;
-		autoScale();
-		repaint();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				_bodies=bodies;
+				autoScale();
+				repaint();
+			}
+		});
+		
 	}
 
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
 		// TODO Auto-generated method stub
-		repaint();
+		SwingUtilities.invokeLater( new Runnable() {
+			@Override
+			public void run() {
+				repaint();
+			}
+		});
 	}
 
 	@Override
