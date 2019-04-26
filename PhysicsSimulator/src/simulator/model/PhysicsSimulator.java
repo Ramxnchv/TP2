@@ -20,16 +20,20 @@ public class PhysicsSimulator {
 	}
 
 	public void advance(){
+		
 		leyes.apply(cuerpos);
 		
 		for(Body i:cuerpos){
 			
 			i.move(tiempoPaso);
 		}
+		
 		tiempoActual+=tiempoPaso;
+		
 		for(SimulatorObserver i: simulatorObserver){
 			i.onAdvance(this.cuerpos, this.tiempoActual);
 		}
+		
 	}
 
 	public void addBody(Body b) throws IllegalArgumentException{
@@ -70,6 +74,7 @@ public class PhysicsSimulator {
 	public void reset() {
 		cuerpos = new ArrayList<>();
 		tiempoActual = 0.0;
+		tiempoPaso = 2500.0;
 		for(SimulatorObserver i: simulatorObserver){
 			i.onReset(this.cuerpos, this.tiempoActual, this.tiempoPaso, this.leyes.toString());
 		}

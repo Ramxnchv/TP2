@@ -28,6 +28,7 @@ public class Viewer extends JComponent implements SimulatorObserver{
 	private int _centerY;
 	private double _scale;
 	private List<Body> _bodies;
+	private boolean _inputFile;
 	private boolean _showHelp;
 	
 	Viewer(Controller ctrl) {
@@ -42,6 +43,7 @@ public class Viewer extends JComponent implements SimulatorObserver{
 	
 	private void initGUI() {
 		// TODO add border with title
+		_inputFile=true;
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
@@ -135,6 +137,12 @@ public class Viewer extends JComponent implements SimulatorObserver{
 		
 		
 		// TODO draw bodies
+		//Cuando se da parametro -i no se llama al metodo onRegister y no se realiza el zoom correctamente, para solucionarlo utilizo un booleano
+		if(_inputFile){
+			autoScale();
+			_inputFile=false;
+		}
+		
 		for(Body b:_bodies){
 			gr.setColor(Color.BLACK);
 			gr.drawString(b.getId(),  _centerX + (int) (b.getPosition().coordinate(0)/_scale), _centerY - (int) (b.getPosition().coordinate(1)/_scale)-5);
