@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -30,7 +31,8 @@ public class Controller {
 		this.factoryBody=factoryBody;
 	}
 
-	public void loadBodies(InputStream in){
+	public void loadBodies(InputStream in) throws JSONException{
+		
 		JSONObject jsonInupt = new JSONObject(new JSONTokener(in));
 		JSONArray bodies = jsonInupt.getJSONArray("bodies");
 

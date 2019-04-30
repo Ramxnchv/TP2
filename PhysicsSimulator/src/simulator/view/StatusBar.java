@@ -1,5 +1,6 @@
 package simulator.view;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 
@@ -32,8 +33,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		this._currTime = new JLabel("Time: ");
 		this.add(_currTime);
 		this.add(new JSeparator(SwingConstants.VERTICAL));
+		this.add(new JSeparator(SwingConstants.VERTICAL));
 		this._numOfBodies = new JLabel("Bodies: ");
 		this.add(_numOfBodies);
+		this.add(new JSeparator(SwingConstants.VERTICAL));
 		this.add(new JSeparator(SwingConstants.VERTICAL));
 		this._currLaws = new JLabel("Laws: ");
 		this.add(_currLaws);

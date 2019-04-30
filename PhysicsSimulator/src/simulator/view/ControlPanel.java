@@ -23,7 +23,9 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
@@ -75,13 +77,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				JFileChooser fileSelector = new JFileChooser();
+				fileSelector.setFileFilter(new FileNameExtensionFilter("Text file in JSON format","txt","json"));
 				int selection = fileSelector.showOpenDialog(loadButton);
 				if(selection==JFileChooser.APPROVE_OPTION){
+					
 					_ctrl.reset();
+					
 					try {
 						_ctrl.loadBodies(new FileInputStream(fileSelector.getSelectedFile()));
+					} catch(JSONException je) {
+						JOptionPane.showMessageDialog(toolBar, je.getMessage(), "Error in JSON", JOptionPane.ERROR_MESSAGE);
 					} catch (FileNotFoundException ex) {
-						System.out.println("Error, archivo seleccionado inexistente");
+						JOptionPane.showMessageDialog(toolBar, ex.getMessage(), "File not found", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -157,19 +164,38 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				deshabilitarBotones();
-				_ctrl.setDeltaTime(Double.parseDouble(dtSelector.getText()));
 				
-				_thread = new Thread(new Runnable(){
-					public void run() {
-						run_sim(Integer.parseInt(stepsSpinner.getValue().toString()),Long.parseLong(delaySpinner.getValue().toString()));
-						habilitarBotones();
-						_thread = null;
-					}
-				});
-				
-				_thread.start();
-				
+				try{
+					deshabilitarBotones();
+					double dt = Double.parseDouble(dtSelector.getText());
+					
+					if(dt>0){
+						
+						_ctrl.setDeltaTime(dt);
+					
+						_thread = new Thread(new Runnable(){
+							public void run() {
+								int steps=Integer.parseInt(stepsSpinner.getValue().toString());
+								long delay=Long.parseLong(delaySpinner.getValue().toString());
+								run_sim(steps,delay);
+								habilitarBotones();
+								_thread = null;
+							}
+						});
+					
+						}else{
+							JOptionPane.showMessageDialog(toolBar, "Delta-Time value must be Positive", "Error in Delta-Time Selector", JOptionPane.ERROR_MESSAGE);
+							dtSelector.setText("2500.00");
+							habilitarBotones();
+						}
+					
+						_thread.start();
+					
+				}catch(NumberFormatException nfe) {
+					JOptionPane.showMessageDialog(toolBar, nfe.getMessage(), "Error in Delta-Time Selector", JOptionPane.ERROR_MESSAGE);
+					dtSelector.setText("2500.00");
+					habilitarBotones();
+				}	
 			}
 			
 		});
@@ -279,30 +305,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			n--;
 		}
 		
-		/*if ( n>0 && !_stopped ) {
-			try {
-				_ctrl.run(1);
-			} catch (Exception e) {
-				// TODO show the error in a dialog box
-				JOptionPane.showMessageDialog(this.toolBar, e.getMessage(), "Error in Simulator", JOptionPane.ERROR_MESSAGE);
-				// TODO enable all buttons
-				this.habilitarBotones();
-				_stopped = true;
-				return;
-		}
-			
-		SwingUtilities.invokeLater( new Runnable() {
-			@Override
-			public void run() {
-				run_sim(n-1);
-			}
-		});
-		
-		} else {
-			_stopped = true;
-			// TODO enable all buttons
-			this.habilitarBotones();
-		}*/
 	}
 
 	@Override
