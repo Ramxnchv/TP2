@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -78,6 +78,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				// TODO Auto-generated method stub
 				JFileChooser fileSelector = new JFileChooser();
 				fileSelector.setFileFilter(new FileNameExtensionFilter("Text file in JSON format","txt","json"));
+				fileSelector.setCurrentDirectory(new File("resources/examples"));
 				int selection = fileSelector.showOpenDialog(loadButton);
 				if(selection==JFileChooser.APPROVE_OPTION){
 					
