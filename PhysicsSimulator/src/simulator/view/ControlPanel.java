@@ -183,14 +183,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 								_thread = null;
 							}
 						});
-					
+						
+						_thread.start();
+						
 						}else{
 							JOptionPane.showMessageDialog(toolBar, "Delta-Time value must be Positive", "Error in Delta-Time Selector", JOptionPane.ERROR_MESSAGE);
 							dtSelector.setText("2500.00");
 							habilitarBotones();
 						}
 					
-						_thread.start();
+						
 					
 				}catch(NumberFormatException nfe) {
 					JOptionPane.showMessageDialog(toolBar, nfe.getMessage(), "Error in Delta-Time Selector", JOptionPane.ERROR_MESSAGE);
