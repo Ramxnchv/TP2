@@ -112,7 +112,5 @@ public class PhysicsSimulator {
 			o.onRegister(this.cuerpos, this.tiempoActual, this.tiempoPaso,this.leyes.toString());
 		}
 	}
-	
-	
 
 }

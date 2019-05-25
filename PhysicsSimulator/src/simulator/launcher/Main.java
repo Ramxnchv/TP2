@@ -34,6 +34,7 @@ import simulator.model.Body;
 import simulator.model.GravityLaws;
 import simulator.model.PhysicsSimulator;
 import simulator.view.MainWindow;
+import simulator.view.Traza;
 
 public class Main {
 
@@ -264,7 +265,9 @@ public class Main {
 		PhysicsSimulator ps = new PhysicsSimulator(_dtime,gl);
 		Controller c = new Controller(ps, _bodyFactory);
 		c.loadBodies(is);
+		Traza tr = new Traza(c);
 		c.run(_steps, os);
+		System.out.println(tr);
 	}
 
 	private static void start(String[] args) throws Exception {

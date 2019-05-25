@@ -15,6 +15,7 @@ public class MainWindow extends JFrame {
 	private Controller _ctrl;
 	private ControlPanel controlPanel;
 	private BodiesTable bodiesTable;
+	private VelocityTable averagesTable;
 	private Viewer viewer;
 	private StatusBar statusBar;
 	
@@ -47,8 +48,11 @@ public class MainWindow extends JFrame {
 		JPanel centralPanel = new JPanel(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.Y_AXIS));
 		this.bodiesTable = new BodiesTable(_ctrl);
-		this.bodiesTable.setPreferredSize(new Dimension(1200,300));
+		this.bodiesTable.setPreferredSize(new Dimension(1200,200));
 		centralPanel.add(bodiesTable);
+		this.averagesTable = new VelocityTable(_ctrl);
+		this.averagesTable.setPreferredSize(new Dimension(1200,200));
+		centralPanel.add(averagesTable);
 		this.viewer = new Viewer(_ctrl);
 		this.viewer.setPreferredSize(new Dimension(1200,500));
 		centralPanel.add(viewer);
